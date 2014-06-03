@@ -101,7 +101,7 @@ SHARED =
 
 
 #Library directory
-LIBS_DIR = ./libs
+LIBS_DIR = ../libs
 
 
 # List C source files here. (C dependencies are automatically generated.)
