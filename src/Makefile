@@ -97,21 +97,12 @@ OBJDIR = .
 
 
 # Shared source code
-SHARED = 
-
-
-#Library directory
 LIBS_DIR = ../libs
 
 
 # List C source files here. (C dependencies are automatically generated.)
 SRC =	$(LIBS_DIR)/events/events.c
 
-
-# List library files here
-#PRINTF_LIB_MIN = -Wl,-u,vfprintf -lprintf_min
-#LIBS = -Wl,-u,utils -lutils
-#LIBS = -lsyn
 
 # List C++ source files here. (C dependencies are automatically generated.)
 CPPSRC =	$(TARGET).cpp						\
@@ -146,7 +137,7 @@ DEBUG = dwarf-2
 #     Each directory must be seperated by a space.
 #     Use forward slashes for directory separators.
 #     For a directory that has spaces, enclose it in quotes.
-EXTRAINCDIRS = $(SHARED) $(LIBS_DIR)
+EXTRAINCDIRS = $(LIBS_DIR)
 
 
 SHARED_DEFS	= -DMAX_EVENT_RECORDS=6
@@ -272,7 +263,7 @@ MATH_LIB = -lm
 #     Each directory must be seperated by a space.
 #     Use forward slashes for directory separators.
 #     For a directory that has spaces, enclose it in quotes.
-EXTRALIBDIRS = $(SHARED)
+EXTRALIBDIRS = $(LIBS_DIR)
 
 
 
@@ -310,8 +301,6 @@ LDFLAGS += $(LIBS)
 # to get a full listing.
 #
 AVRDUDE_PROGRAMMER = stk500v2
-
-AVRDUDE_BITCLOCK	=
 
 # com1 = serial port. Use lpt1 to connect to parallel port.
 AVRDUDE_PORT = com6    # programmer connected to serial device
