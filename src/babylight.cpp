@@ -14,9 +14,9 @@ volatile		uint16_t			senseSample		= 0;
 volatile		uint16_t			timerTicks		= 0;
 volatile		uint16_t			secondsAlive	= 0;
 
-static			RGB					rgb;
+static			Events				events(MAX_EVENT_RECORDS);
 static			RGB::pixel_t		io_pixel;
-
+static			RGB					rgb(&events, &io_pixel);
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Prepare the power switch circuit
@@ -33,9 +33,9 @@ static void initMotor(void)
 static void initEvents(void)
 {
 	// setup eventing system
-	eventsUnregisterAll();
+	events.eventsUnregisterAll();
 
-	setTimeBase(SAMPLE_RATE);
+	events.setTimeBase(SAMPLE_RATE);
 }
 
 
@@ -127,9 +127,7 @@ static void initPwm(void)
 // Registers the display RGB event
 void startRGB(void)
 {
-	rgb.initialize(&io_pixel);
-
-	registerHighPriorityEvent(eDisplayRGB, 0, EVENT_STATE_NONE);
+	events.registerHighPriorityEvent(eDisplayRGB, 0, EVENT_STATE_NONE);
 }
 
 
@@ -142,7 +140,7 @@ static void pause(uint16_t seconds)
 	while (secondsAlive - delay < seconds)
 	{
 		wdt_reset();
-		eventsDoEvents();
+		events.doEvents();
 	}
 }
 
@@ -242,13 +240,13 @@ static void eMapVoltageToColor(eventState_t state)
 void showBatteryLevel(void)
 {
 	// setup eventing system to display the battery voltage color chart
-	registerEvent(eMapVoltageToColor, SAMPLE_RATE / 2, EVENT_STATE_NONE);
+	events.registerEvent(eMapVoltageToColor, SAMPLE_RATE / 2, EVENT_STATE_NONE);
 
 	// show battery level for a few seconds
 	pause(3);
 
 	// wait for battery level to turn off
-	eventsUnregisterEvent(eMapVoltageToColor);
+	events.eventsUnregisterEvent(eMapVoltageToColor);
 	rgb.fadeOut(DIMMER_TIMEOUT);
 
 	power_adc_disable();
@@ -417,7 +415,7 @@ ISR(ADC_vect)
 ISR(TIM0_COMPA_vect)
 {
 	// call the event sync root
-	eventSync();
+	events.sync();
 
 	// increment the timerticks
 	if (timerTicks++ > SAMPLE_RATE - 1)

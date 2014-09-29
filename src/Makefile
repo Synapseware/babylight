@@ -105,7 +105,7 @@ LIBS_DIR = ../libs
 
 
 # List C source files here. (C dependencies are automatically generated.)
-SRC =	$(LIBS_DIR)/events/events.c
+SRC =	
 
 
 # List library files here
@@ -115,6 +115,7 @@ SRC =	$(LIBS_DIR)/events/events.c
 
 # List C++ source files here. (C dependencies are automatically generated.)
 CPPSRC =	$(TARGET).cpp						\
+			$(LIBS_DIR)/events/events.cpp		\
 			$(LIBS_DIR)/effects/rgb.cpp
 
 
