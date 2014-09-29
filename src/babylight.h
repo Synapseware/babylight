@@ -6,8 +6,8 @@
 #include <avr/interrupt.h>
 #include <avr/power.h>
 #include <avr/wdt.h>
-#include <avr/interrupt.h>  /* for sei() */
-#include <avr/pgmspace.h>   /* required by usbdrv.h */
+#include <avr/interrupt.h>
+#include <avr/pgmspace.h>
 #include <avr/sleep.h>
 
 
